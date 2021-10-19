@@ -23,12 +23,14 @@ class Inventory{
     add(newObject){
         if (this.first == null){
             this.first = newObject;
-        } else {
+        } else if(this.search(newObject.id) == null){
             let temp = this.first;
             while (temp.next != null){
                 temp = temp.next;
             }
             temp.next = newObject;
+        }else{
+            return null;
         }
         return newObject;
     }
@@ -36,7 +38,7 @@ class Inventory{
     insert(pos,product){
         if (this.first == null){
             this.first = product;
-        } else {
+        } else if(this.search(product.id) == null){
             let temp = this.first;
             let prev = temp;
             let i = 1;
@@ -61,6 +63,8 @@ class Inventory{
             if(i <= pos){
                 prev.next = product;
             }
+        }else{
+            return null;
         }
         return product;
     }
@@ -155,12 +159,7 @@ btnSearch.addEventListener('click',()=>{
     ui.show(invent.search(id).info());
 });
 
-const btnNormalO=document.getElementById('btnNormalO');
-btnNormalO.addEventListener('click',()=>{
+const btnList=document.getElementById('btnList');
+btnList.addEventListener('click',()=>{
     ui.show(invent.list());
-});
-
-const btnReverseO=document.getElementById('btnReverseO');
-btnReverseO.addEventListener('click',()=>{
-    ui.show(invent.listR());
 });
