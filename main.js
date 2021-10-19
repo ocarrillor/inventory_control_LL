@@ -10,7 +10,7 @@ class Product{
         return this.amount * this.cost;
     }
 
-    infoHTML(){
+    info(){
         return `<p>${this.id}  ${this.name}  $${this.amount}  $${this.cost}  $${this.getValue()}</p>`;
     }
 }
@@ -30,9 +30,40 @@ class Inventory{
             }
             temp.next = newObject;
         }
+        return newObject;
     }
 
-    
+    insert(pos,product){
+        if (this.first == null){
+            this.first = product;
+        } else {
+            let temp = this.first;
+            let prev = temp;
+            let i = 1;
+            do{
+                if(i == pos){
+                    if(pos == 1){
+                        this.first = product;
+                        product.next = temp;
+                    }else{
+                        product.next = temp;
+                        prev.next = product;
+                    }
+                }
+                console.log(temp);
+                prev = temp;
+                temp = temp.next;
+                console.log(temp);
+
+                i++;
+            }while(temp != null && i <= pos);
+            
+            if(i <= pos){
+                prev.next = product;
+            }
+        }
+        return product;
+    }
 
     search(id){
         let temp = this.first;
@@ -98,24 +129,35 @@ btnAdd.addEventListener('click',()=>{
     let amount = document.getElementById('amount').value;
     let cost = document.getElementById('cost').value;
     let product = new Product(id, name, amount, cost);
-    ui.show(invent.add(product).infoHTML());
+    ui.show(invent.add(product).info());
+});
+
+const btnInsert=document.getElementById('btnInsert');
+btnInsert.addEventListener('click',()=>{
+    let id = document.getElementById('idA').value;
+    let name = document.getElementById('name').value;
+    let amount = document.getElementById('amount').value;
+    let cost = document.getElementById('cost').value;
+    let pos = document.getElementById('pos').value;
+    let product = new Product(id, name, amount, cost);
+    ui.show(invent.insert(pos, product).info());
 });
 
 const btnDelete=document.getElementById('btnDelete');
 btnDelete.addEventListener('click',()=>{
     let id = document.getElementById('idE').value;
-    ui.show(invent.delete(id).infoHTML());
+    ui.show(invent.delete(id).info());
 });
 
 const btnSearch=document.getElementById('btnSearch');
 btnSearch.addEventListener('click',()=>{
     let id = document.getElementById('idB').value;
-    ui.show(invent.search(id).infoHTML());
+    ui.show(invent.search(id).info());
 });
 
 const btnNormalO=document.getElementById('btnNormalO');
 btnNormalO.addEventListener('click',()=>{
-    ui.show(invent.listN());
+    ui.show(invent.list());
 });
 
 const btnReverseO=document.getElementById('btnReverseO');
