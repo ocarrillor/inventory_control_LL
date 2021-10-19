@@ -32,8 +32,40 @@ class Inventory{
         }
     }
 
+    
 
+    search(id){
+        let temp = this.first;
+        while(temp != null){
+            if(temp.id == id){
+                return temp;
+            }
+            temp = temp.next;
+        }
+        return null;
+    }
 
+    delete(id){
+        let temp = this.first;
+        let deleted = null;
+
+        if(temp.next == null){
+            if(temp.id == id){
+                deleted = temp;
+                temp = null;
+            }
+        }else{
+            while(temp.next != null && deleted == null){
+                if(temp.next.id == id){
+                    deleted = temp.next;
+                    temp.next = temp.next.next;
+                }else{
+                    temp = temp.next;
+                }
+            }
+        }
+        return deleted;
+    }
 
 
     list(){
